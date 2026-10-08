@@ -1,0 +1,33 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Tests and caches
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local datasets and generated runs
+/data/
+/runs/
+/outputs/
+/models/
+/reports/
+pcba_yolov8n_best.onnx
+pcba_yolov8n_best.pt
+yolov8n.pt
+
+# Keep curated GitHub artifacts
+!/artifacts/
+!/artifacts/**
+
+# OS and editors
+Thumbs.db
+.DS_Store
+.idea/
+.vscode/

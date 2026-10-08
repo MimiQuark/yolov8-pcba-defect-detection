@@ -1,0 +1,64 @@
+{
+  "model": "H:\\Codex\\yolov8_pcba_defect\\models\\pcba_yolov8n_best.pt",
+  "data": "H:\\Codex\\yolov8_pcba_defect\\data\\pcba_yolo\\dataset.yaml",
+  "split": "test",
+  "imgsz": 960,
+  "batch": 2,
+  "device": "cpu",
+  "overall": {
+    "metrics/precision(B)": 0.9418238599505177,
+    "metrics/recall(B)": 0.7741779346248314,
+    "metrics/mAP50(B)": 0.879416253375504,
+    "metrics/mAP50-95(B)": 0.5313384881721376,
+    "fitness": 0.5313384881721376
+  },
+  "per_class": [
+    {
+      "class_id": 0,
+      "class_name": "open_solder",
+      "precision": 0.7414982444477434,
+      "recall": 0.5458715596330275,
+      "mAP50": 0.8206983926503757,
+      "mAP50_95": 0.5288587608996103
+    },
+    {
+      "class_id": 1,
+      "class_name": "short",
+      "precision": 0.996358398320669,
+      "recall": 1.0,
+      "mAP50": 0.995,
+      "mAP50_95": 0.5727459122282845
+    },
+    {
+      "class_id": 2,
+      "class_name": "skewing",
+      "precision": 0.9955296612611837,
+      "recall": 0.7391304347826086,
+      "mAP50": 0.805366082244138,
+      "mAP50_95": 0.5800606048012529
+    },
+    {
+      "class_id": 3,
+      "class_name": "solder_bridge",
+      "precision": 1.0,
+      "recall": 0.8272669890533488,
+      "mAP50": 0.9903142191413794,
+      "mAP50_95": 0.48751554380505063
+    },
+    {
+      "class_id": 4,
+      "class_name": "tombstoning",
+      "precision": 0.9757329957229921,
+      "recall": 0.7586206896551724,
+      "mAP50": 0.785702572841627,
+      "mAP50_95": 0.48751161912648955
+    }
+  ],
+  "speed_ms_per_image": {
+    "preprocess": 2.1248906649028263,
+    "inference": 71.98012533287206,
+    "loss": 0.0008513328308860461,
+    "postprocess": 0.7456160003008941
+  },
+  "save_dir": "H:\\Codex\\yolov8_pcba_defect\\runs\\eval\\test_960"
+}
