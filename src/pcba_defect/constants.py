@@ -37,4 +37,4 @@ DEFAULT_MODEL_DIR = PROJECT_ROOT / "models"
 DEFAULT_RUNS_DIR = PROJECT_ROOT / "runs"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "outputs"
 DEFAULT_REPORTS_DIR = PROJECT_ROOT / "reports"
-DEFAULT_SOURCE_ARCHIVE = Path(r"C:\Users\27800\Downloads\data\data139469\data_y.zip")
+DEFAULT_SOURCE_ARCHIVE = PROJECT_ROOT / "data" / "source" / "data_y.zip"

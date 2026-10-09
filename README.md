@@ -14,6 +14,10 @@
 
 只要检测到任一类别，业务结论即为“不合格”；未检测到目标则结论为“合格”。
 
+## 数据准备
+
+将原始 `data_y.zip` 放到 `data/source/data_y.zip`，或者通过 `pcba prepare --archive <路径>` 显式指定压缩包位置。原始数据不会提交到 Git。
+
 ## 数据概况
 
 - 原始数据：600 张 JPG 图片、600 个 XML 标注、4552 个目标框。
@@ -36,12 +40,20 @@
 - 默认 CPU 训练，不需要 CUDA。
 - 建议至少 8 GB 内存；完整 960 输入训练建议 16 GB 内存。
 
+## 项目主页与下载
+
+- GitHub Pages：https://mimiquark.github.io/yolov8-pcba-defect-detection/
+- 源码仓库：https://github.com/MimiQuark/yolov8-pcba-defect-detection
+- Release 与模型下载：https://github.com/MimiQuark/yolov8-pcba-defect-detection/releases
+
+GitHub Pages 用于展示项目文档、指标、图表和下载入口。Gradio 交互服务依赖 Python 运行环境，不能直接托管在 GitHub Pages 上。
+
 ## 快速开始
 
 在 PowerShell 中执行：
 
 ```powershell
-cd H:\Codex\yolov8_pcba_defect
+cd yolov8_pcba_defect
 .\scripts\setup.ps1
 .\scripts\prepare.ps1
 .\scripts\train_smoke.ps1
@@ -53,7 +65,7 @@ cd H:\Codex\yolov8_pcba_defect
 也可以直接使用虚拟环境中的 `pcba` 命令：
 
 ```powershell
-.\.venv\Scripts\pcba.exe prepare --archive "C:\Users\27800\Downloads\data\data139469\data_y.zip" --lighting auto --overwrite
+.\.venv\Scripts\pcba.exe prepare --archive "data\source\data_y.zip" --lighting auto --overwrite
 .\.venv\Scripts\pcba.exe analyze
 .\.venv\Scripts\pcba.exe train --config configs\train_cpu.yaml
 .\.venv\Scripts\pcba.exe eval --split test --imgsz 960
@@ -162,6 +174,7 @@ pcba app --host 127.0.0.1 --port 7860
 ```text
 yolov8_pcba_defect/
 ├─ configs/                 训练配置
+├─ docs/                    GitHub Pages 项目主页
 ├─ data/
 │  ├─ pcba_yolo/            YOLO 格式数据和 dataset.yaml
 │  └─ analysis/             数据统计和图表

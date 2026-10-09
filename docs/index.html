@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="基于 YOLOv8n 的 PCBA 五类缺陷检测项目，包含数据审计、训练评估、ONNX 导出与 Gradio 部署。测试集 mAP50 87.94%。">
+  <title>PCBA 五类缺陷检测 | YOLOv8 全流程落地</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#">PCBA · YOLOv8</a>
+    <nav>
+      <a href="#overview">项目概览</a>
+      <a href="#data">数据</a>
+      <a href="#results">结果</a>
+      <a href="#deployment">部署</a>
+      <a href="https://github.com/MimiQuark/yolov8-pcba-defect-detection">GitHub</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="overview">
+      <div class="hero-copy">
+        <p class="eyebrow">INDUSTRIAL AI · OBJECT DETECTION</p>
+        <h1>PCBA 五类缺陷检测<br><span>YOLOv8 全流程落地</span></h1>
+        <p class="lead">从 600 张 PCBA 图片和 VOC 标注出发，完成数据审计、模型训练、独立测试、ONNX 导出与可交互网页演示。模型在测试集达到 87.94% mAP50。</p>
+        <div class="actions">
+          <a class="button primary" href="https://github.com/MimiQuark/yolov8-pcba-defect-detection">查看源码</a>
+          <a class="button" href="https://github.com/MimiQuark/yolov8-pcba-defect-detection/blob/main/artifacts/reports/PCBA_YOLOv8%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A.pdf">实验报告</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="assets/prediction-351.jpg" alt="PCBA 缺陷检测结果示例">
+      </div>
+    </section>
+
+    <section class="metrics" aria-label="核心指标">
+      <article><strong>94.18%</strong><span>Precision</span></article>
+      <article><strong>77.42%</strong><span>Recall</span></article>
+      <article><strong>87.94%</strong><span>mAP50</span></article>
+      <article><strong>53.13%</strong><span>mAP50-95</span></article>
+      <article><strong>2.96h</strong><span>CPU 训练耗时</span></article>
+    </section>
+
+    <section class="section two-column" id="data">
+      <div>
+        <p class="eyebrow">01 / DATA</p>
+        <h2>数据先体检，再训练</h2>
+        <p>数据集包含 600 张 2448 × 2048 图像、600 个 XML 标注、4552 个目标框，覆盖开焊、短路、偏移、连锡和立碑五类缺陷。</p>
+        <p>自动亮度分析显示全量平均灰度位于 98.01–123.18，处于设定的 60–200 正常范围。项目没有为了“看起来做了预处理”而强行修改图像。</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>类别</th><th>目标数</th></tr></thead>
+            <tbody>
+              <tr><td>short / 短路</td><td>1119</td></tr>
+              <tr><td>open_solder / 开焊</td><td>1080</td></tr>
+              <tr><td>tombstoning / 立碑</td><td>880</td></tr>
+              <tr><td>skewing / 偏移</td><td>873</td></tr>
+              <tr><td>solder_bridge / 连锡</td><td>600</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <figure>
+        <img src="assets/dataset-overview.jpg" alt="PCBA 缺陷标注样例">
+        <figcaption>PCBA 缺陷标注样例，红色框为真实标注。</figcaption>
+      </figure>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">02 / PIPELINE</p>
+      <h2>完整工程链路</h2>
+      <div class="pipeline">
+        <article><b>01</b><h3>数据校验</h3><p>图片与 XML 配对、尺寸、类别和边界框检查，转换为 YOLO 格式。</p></article>
+        <article><b>02</b><h3>YOLOv8n 训练</h3><p>960 输入、batch 2、早停与在线增广，保留验证集和测试集边界。</p></article>
+        <article><b>03</b><h3>独立评估</h3><p>训练结束后评估 150 张测试图，输出总体与逐类别指标。</p></article>
+        <article><b>04</b><h3>部署交付</h3><p>导出 ONNX，提供 CLI、Gradio、CSV 明细和自动化测试。</p></article>
+      </div>
+    </section>
+
+    <section class="section" id="results">
+      <p class="eyebrow">03 / RESULTS</p>
+      <h2>用独立测试集说话</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>类别</th><th>Precision</th><th>Recall</th><th>mAP50</th><th>mAP50-95</th></tr></thead>
+          <tbody>
+            <tr><td>open_solder</td><td>74.15%</td><td>54.59%</td><td>82.07%</td><td>52.89%</td></tr>
+            <tr><td>short</td><td>99.64%</td><td>100.00%</td><td>99.50%</td><td>57.27%</td></tr>
+            <tr><td>skewing</td><td>99.55%</td><td>73.91%</td><td>80.54%</td><td>58.01%</td></tr>
+            <tr><td>solder_bridge</td><td>100.00%</td><td>82.73%</td><td>99.03%</td><td>48.75%</td></tr>
+            <tr><td>tombstoning</td><td>97.57%</td><td>75.86%</td><td>78.57%</td><td>48.75%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="figure-grid">
+        <figure><img src="assets/training-curve.png" alt="训练曲线"><figcaption>训练损失与验证指标</figcaption></figure>
+        <figure><img src="assets/confusion-matrix.png" alt="混淆矩阵"><figcaption>测试集归一化混淆矩阵</figcaption></figure>
+      </div>
+      <div class="callout warning">
+        <strong>主要短板</strong>
+        <p>open_solder 的 Recall 只有 54.59%，漏检仍是最突出的问题；验证集和测试集指标差异较大，也说明固定编号划分可能包含批次差异。</p>
+      </div>
+    </section>
+
+    <section class="section two-column dark" id="deployment">
+      <div>
+        <p class="eyebrow">04 / DEPLOYMENT</p>
+        <h2>从权重到可演示系统</h2>
+        <p>项目提供统一的 <code>pcba</code> CLI，以及支持图片、视频和摄像头的 Gradio 页面。推理输出包含检测框、类别统计、合格判定和 CSV 明细。</p>
+        <pre><code>pcba prepare
+pcba analyze
+pcba train --config configs/train_cpu.yaml
+pcba eval --split test --imgsz 960
+pcba export --output models/pcba_yolov8n.onnx
+pcba app --host 127.0.0.1 --port 7860</code></pre>
+        <p class="note">GitHub Pages 展示项目文档与结果；Gradio 交互服务需要 Python/CPU 运行时，不能直接托管在 Pages 上。</p>
+      </div>
+      <figure>
+        <img src="assets/web-demo.jpg" alt="Gradio 检测界面">
+        <figcaption>Gradio 网页对测试图检出 7 个缺陷目标。</figcaption>
+      </figure>
+    </section>
+
+    <section class="section download">
+      <p class="eyebrow">05 / DOWNLOADS</p>
+      <h2>发布产物</h2>
+      <div class="download-grid">
+        <a href="https://github.com/MimiQuark/yolov8-pcba-defect-detection/raw/main/artifacts/models/pcba_yolov8n_best.pt"><strong>best.pt</strong><span>PyTorch 最佳权重</span></a>
+        <a href="https://github.com/MimiQuark/yolov8-pcba-defect-detection/raw/main/artifacts/models/pcba_yolov8n.onnx"><strong>ONNX</strong><span>960 固定输入模型</span></a>
+        <a href="https://github.com/MimiQuark/yolov8-pcba-defect-detection/blob/main/artifacts/reports/PCBA_YOLOv8%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A.pdf"><strong>PDF 报告</strong><span>完整实验记录</span></a>
+        <a href="https://github.com/MimiQuark/yolov8-pcba-defect-detection/blob/main/artifacts/results/evaluation/metrics.json"><strong>metrics.json</strong><span>测试集原始指标</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>MimiQuark · 工业 AI 工程记录</p>
+    <p><a href="https://mimiquark.github.io/">返回博客</a> · <a href="https://github.com/MimiQuark/yolov8-pcba-defect-detection">项目仓库</a></p>
+  </footer>
+</body>
+</html>
